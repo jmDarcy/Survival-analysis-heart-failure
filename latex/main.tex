@@ -98,7 +98,6 @@ Zmienna & Znaczenie \\
 \end{columns}
 {\scriptsize W zbiorze odnotowano 96 zgonów oraz 203 obserwacji cenzurowanych prawostronnie. Udział cenzurowania wpływa na precyzję estymacji funkcji przeżycia, szczególnie w końcowym zakresie czasu obserwacji.}
 \end{frame}
-\begin{frame}{Rozkład czasu obserwacji}\centering\widefig{01_rozklad_czasu.pdf}\end{frame}
 \begin{frame}{Analiza nieparametryczna}
 Analiza nieparametryczna stanowi punkt odniesienia dla dalszego modelowania. Pozwala ocenić empiryczny przebieg funkcji przeżycia, skumulowanego hazardu oraz różnice między wybranymi podgrupami bez narzucania konkretnego rozkładu czasu przeżycia.
 \end{frame}
@@ -113,12 +112,6 @@ Analiza nieparametryczna stanowi punkt odniesienia dla dalszego modelowania. Poz
 \end{itemize}
 \end{frame}
 \begin{frame}{Kaplan-Meier dla całej próby}\centering\widefig{03_kaplan_meier.pdf}\\[-.3em]{\scriptsize Zacieniowany obszar oznacza przedział ufności dla estymowanej funkcji przeżycia.}\end{frame}
-\begin{frame}{Tabela Kaplana-Meiera}
-Tabela Kaplana-Meiera umożliwia kontrolę punktowych estymacji funkcji przeżycia w kolejnych czasach zdarzeń. Obserwacje cenzurowane zmniejszają liczebność zbioru ryzyka, ale nie powodują skoku funkcji przeżycia.
-\end{frame}
-\begin{frame}{Tablica aktuarialna}
-Tablica aktuarialna grupuje czas obserwacji w przedziały i pozwala syntetycznie opisać prawdopodobieństwo przeżycia oraz intensywność zdarzeń w kolejnych okresach. W przeciwieństwie do Kaplana-Meiera wynik zależy od przyjętej szerokości przedziałów.
-\end{frame}
 \begin{frame}{Tablica aktuarialna: wyniki}\slidetable{../Tables/04_tablica_aktuarialna.tex}\end{frame}
 \begin{frame}{Tablica aktuarialna: wykres}\centering\widefig{05_tablica_aktuarialna.pdf}\end{frame}
 \begin{frame}{Skumulowany hazard Nelsona-Aalena}
@@ -128,6 +121,11 @@ Tablica aktuarialna grupuje czas obserwacji w przedziały i pozwala syntetycznie
 Skumulowany hazard rośnie wraz z narastaniem ryzyka zdarzenia wśród pacjentów pozostających w obserwacji.
 \end{frame}
 \begin{frame}{Nelson-Aalen: wynik}\centering\widefig{04_nelson_aalen.pdf}\end{frame}
+\begin{frame}{Nieparametryczna funkcja hazardu}
+\centering
+\widefig{04b_hazard_smoothed_bw50.pdf}\\[-.3em]
+{\scriptsize Wykres przedstawia wygładzoną funkcję hazardu Nelsona-Aalena dla pasma $bandwidth=50$. Krzywa pokazuje bieżącą intensywność zgonów w czasie, a zacieniowany obszar oznacza 95\% przedział ufności.}
+\end{frame}
 \begin{frame}{Kaplan-Meier dla podgrup I}\centering\widefig{06_km_podgrupy_1.pdf}\end{frame}
 \begin{frame}{Kaplan-Meier dla podgrup II}\centering\widefig{06_km_podgrupy_2.pdf}\end{frame}
 \begin{frame}{Kaplan-Meier dla podgrup III}\centering\widefig{06_km_podgrupy_3.pdf}\end{frame}
@@ -160,11 +158,25 @@ W modelu AFT $\exp(\beta)$ jest współczynnikiem czasu, a nie hazard ratio.
 \begin{frame}{Interpretacja porównania parametrycznego}
 Najniższe wartości kryteriów informacyjnych uzyskał model Weibull AFT. Model wykładniczy bez kowariant estymuje jeden parametr intensywności zdarzenia, ponieważ nie zawiera zmiennych objaśniających ani dodatkowego parametru kształtu.
 \end{frame}
+\begin{frame}{Ocena dopasowania rozkładu -- probability plots}
+\centering
+\widefig{08f_probability_plots.pdf}\\[-.3em]
+{\scriptsize Probability plots służą do wizualnej oceny zgodności empirycznego rozkładu czasu przeżycia z rozkładami parametrycznymi. Im bliżej punktów do linii referencyjnej, tym lepsze dopasowanie rozkładu w sensie marginalnym.}
+\end{frame}
+\begin{frame}{Wybór rozkładu: Weibull AFT}
+\begin{itemize}
+\item Probability plots wskazują dobre dopasowanie graficzne trzech rozkładów parametrycznych; wartości $R^2$ przekraczają 0{,}93.
+\item Właściwym kryterium wyboru modelu regresyjnego jest AIC dla pełnego modelu z kowariantami.
+\item Pełny model Weibull AFT ma najniższe AIC w tej grupie; przewaga względem modelu log-normalnego wynosi około $\Delta AIC=5{,}7$.
+\item Log-logistic AFT pozostaje modelem konkurencyjnym, natomiast log-normal AFT ma dobre dopasowanie graficzne, ale słabsze AIC.
+\item Oszacowany parametr kształtu $\hat{\rho}\approx0{,}96$ jest bliski 1, co wskazuje na hazard zbliżony do stałego i klinicznie interpretowalną strukturę modelu.
+\end{itemize}
+\end{frame}
 \begin{frame}{Parametry pełnego modelu Weibull AFT}\slidetable{../Tables/08_parametry_najlepszego_aft.tex}\end{frame}
 \begin{frame}{Model Weibull AFT zredukowany}\slidetable{../Tables/08b_parametry_aft_zredukowany.tex}\end{frame}
 \begin{frame}{Model pełny i zredukowany}\slidetable{../Tables/08c_aft_pelny_vs_zredukowany.tex}\end{frame}
-\begin{frame}{Profile przeżycia w modelu AFT}\centering\widefig{07_aft_profile_survival.pdf}\\[-.3em]{\scriptsize Profil wysokiego ryzyka charakteryzuje się szybszym spadkiem funkcji przeżycia.}\end{frame}
-\begin{frame}{Hazard w modelu AFT}\centering\widefig{08_aft_profile_hazard.pdf}\end{frame}
+\begin{frame}{Profile przeżycia w modelu AFT}\centering\widefig{08c_weibull_profile_survival.pdf}\\[-.3em]{\scriptsize Profil wysokiego ryzyka charakteryzuje się szybszym spadkiem funkcji przeżycia w modelu Weibull AFT zredukowanym.}\end{frame}
+\begin{frame}{Hazard w modelu AFT}\centering\widefig{08e_weibull_profile_hazard.pdf}\\[-.3em]{\scriptsize Profile ryzyka różnią się poziomem hazardu, przy podobnym kształcie przebiegu wynikającym ze wspólnego parametru rozkładu Weibulla.}\end{frame}
 \begin{frame}{Diagnostyka parametryczna}\centering\widefig{08b_probability_diagnostics.pdf}\end{frame}
 \begin{frame}{Ograniczenie liczby parametrów}
 Liczba zdarzeń ogranicza liczbę parametrów, które można stabilnie interpretować. Zbyt rozbudowany model może prowadzić do niestabilnych oszacowań, szerokich przedziałów ufności i nadmiernego dopasowania do próby.
@@ -182,7 +194,7 @@ T_i\sim Weibull(\rho,\lambda_i),\qquad \log\lambda_i=\beta_0+\beta^TX_i
 Cenzurowanie uwzględniono przez wkład $S(t_i|X_i)$ dla obserwacji bez zdarzenia.
 \end{frame}
 \begin{frame}{Posterior modelu bayesowskiego}\slidetable{../Tables/08d_bayes_posterior.tex}\end{frame}
-\begin{frame}{Traceploty MCMC}\centering\widefig{08d_bayes_traceplots.pdf}\end{frame}
+\begin{frame}{Traceploty MCMC}\centering\widefig{08d_bayes_traceplots_refreshed.pdf}\\[-.3em]{\scriptsize Średnia akceptacja MCMC wyniosła 0{,}5339, czyli przyjęto około 53{,}4\% proponowanych przejść algorytmu Metropolisa-Hastingsa. Taki poziom oznacza, że łańcuch eksploruje posterior bez nadmiernego odrzucania propozycji.}\end{frame}
 \begin{frame}{Model Coxa}
 Model Coxa umożliwia wielowymiarową analizę wpływu zmiennych klinicznych na hazard zgonu bez konieczności parametryzacji hazardu bazowego. Ceną tej elastyczności jest konieczność weryfikacji założenia proporcjonalności hazardów.
 \end{frame}
@@ -207,7 +219,8 @@ Poprawna kolejność analizy obejmuje estymację modelu Coxa, diagnostykę zało
 \begin{frame}{Wyniki modelu Coxa z interakcją czasową}\slidetable{../Tables/10c_cox_interakcja_wyniki.tex}\end{frame}
 \begin{frame}{Test PH po dodaniu interakcji czasowej}\slidetable{../Tables/10d_test_ph_cox_interakcja.tex}\vspace{-0.4em}{\scriptsize Ponowny test służy ocenie, czy wprowadzenie efektu zależnego od czasu osłabiło sygnał naruszenia założenia proporcjonalności hazardów.}\end{frame}
 \begin{frame}{Obserwacje wpływowe}\slidetable{../Tables/11_obserwacje_wplywowe.tex}\vspace{-0.4em}{\scriptsize Miary delta-beta pokazują, jak zmieniłyby się współczynniki po usunięciu danej obserwacji.}\end{frame}
-\begin{frame}{Predykcja funkcji przeżycia z modelu Coxa}\centering\widefig{11_cox_profile_survival.pdf}\end{frame}
+\begin{frame}{Predykcja funkcji przeżycia z modelu Coxa}\centering\widefig{11_cox_profile_survival_three_risk.pdf}\\[-.3em]{\scriptsize Trzy klasy ryzyka pokazują praktyczną interpretację modelu Coxa: wraz z pogarszaniem profilu klinicznego przewidywana funkcja przeżycia opada coraz szybciej.}\end{frame}
+\begin{frame}{Predykcja funkcji hazardu z modelu Coxa}\centering\widefig{11b_cox_profile_hazard_three_risk.pdf}\\[-.3em]{\scriptsize Funkcja hazardu pokazuje bieżącą intensywność zdarzenia dla profili ryzyka. W modelu Coxa profile różnią się poziomem hazardu przez czynnik $\exp(\beta^T X)$, przy wspólnym hazardzie bazowym.}\end{frame}
 \begin{frame}{Porównanie klas modeli}\slidetable{../Tables/12_porownanie_syntetyczne_modeli.tex}\end{frame}
 \begin{frame}{Ograniczenia analizy}
 \begin{itemize}
